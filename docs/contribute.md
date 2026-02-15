@@ -32,3 +32,8 @@ cz changelog --incremental --unreleased-version "v0.0.1"
 
 - https://bai2-reader.readthedocs.io/en/latest/
 - https://app.readthedocs.org/projects/bai2-reader/
+
+
+Contact me to collaborate on this 
+- Gmail: [ekharshavardhan851@gmail.com](mailto:ekharshavardhan851@gmail.com)
+- LinkedIn : https://www.linkedin.com/in/sh-vardhantallapalli/

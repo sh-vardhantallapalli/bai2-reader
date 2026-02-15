@@ -20,4 +20,4 @@ plugins:
 nav:
   - Home: index.md
   - Change Log: changelog.md
-  - Contribute: contributing.md
+  - Contribute: contribute.md

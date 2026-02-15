@@ -81,6 +81,13 @@ poetry add 'bai2-reader[cli]'    -- install if you want to run CLI commands to p
 poetry add 'bai2-reader[excel]'  -- install only if you want to export to excel 
 ```
 
+```shell
+# to export BAI to formats like CSV/JSON/Parquet
+bai2 --help
+
+# to export BAI file using UI run below. this will open the UI automatically
+bai2-ui
+```
 
 ### Python Based
 
@@ -157,7 +164,7 @@ bai_data = reader.read_file('app/src/samples/sample_1.bai').bai_data
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-#### Examples
+Examples
 
 - Single File export
 ```shell
@@ -183,7 +190,14 @@ bai2 export \
 ### UI for Analysis
 
 UI is created using [Streamlit](https://streamlit.io/) app. The UI runs in your local machine and allows you to explore the BAI files. 
-> Note : You can only explore one file at a time.
+
+```shell
+# need to install UI dependencies
+pip install 'bai2-reader[ui]' 
+
+# Start the UI
+bai2-ui
+```
 
 You get to see 3 different views in the UI
 
@@ -208,3 +222,5 @@ Allows you to expand and collapse each section of BAI file.
 Allows you to see the BAI data in JSON format. 
 
 ![](images/JSONView.png)
+
+> Note : You can only explore one file at a time.
