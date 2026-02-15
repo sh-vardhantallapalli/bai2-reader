@@ -1,4 +1,4 @@
-site_name: Porter
+site_name: BAI2-Reader
 
 # as the mkdocs.yml is in the docs/configs/ subfolder, we need to set the docs_dir to '../'
 docs_dir: '../'

@@ -2,7 +2,7 @@
 
 The BAI2 file format is a standardized, comma-delimited plain text (.txt) format developed by the Bank Administration Institute for electronic cash management, balance reporting, and bank reconciliation. It uses specific record types (01-99) to detail file headers, group headers, account summaries, and transaction details, often including multiple bank accounts in one file. 
 
-## Structure: 
+## Introduction to BAI
 - Comma-separated, with a slash (/) to denote the end of a record line.
 - Common Record Codes:
   - 01: File Header
