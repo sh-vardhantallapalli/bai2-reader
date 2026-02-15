@@ -1,1 +1,5 @@
-## v0.0.1 (2026-02-14)
+## v0.0.3 (2026-02-15)
+
+### Feat
+
+- initial draft of the application

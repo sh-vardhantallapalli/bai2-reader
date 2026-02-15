@@ -92,6 +92,7 @@ version = "0.0.3"
 version_files = ["pyproject.toml:^version"]
 tag_format = "v$version"
 changelog_file = "docs/changelog.md"
+update_changelog_on_bump = true
 
 
 [tool.pytest.ini_options]
