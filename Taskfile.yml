@@ -1,0 +1,70 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  default:
+    desc: Print a greeting message
+    cmds:
+      - echo "Hello, world!"
+    silent: true
+
+  cmds:
+    desc: Useful command
+    cmds:
+      - echo '$(poetry env activate)'
+      - echo 'cz bump --help'
+      - echo 'cz bump --increment PATCH'
+      - echo 'cz bump --increment PATCH --prerelease rc'
+      - echo 'cz changelog --incremental --unreleased-version "v0.0.1"'
+
+    silent: true
+
+  rewrite-pyproject-toml:
+    desc: Convert poetry group dependencies to PEP standard format
+    cmds:
+      - python ci/rewrite_pyproject_toml_to_pep.py
+      - poetry lock
+
+  build:
+    desc: Build the application
+    cmds:
+      - echo "Build the application"
+      - poetry build --clean
+      - rm -r -f dist
+    silent: true
+
+  publish:
+    desc: Publish the application to PYPI
+    cmds:
+      - echo "Pushing the changes to PYPI"
+      - poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD --skip-existing
+    silent: true
+
+  publish.local:
+    desc: Publish the application to PYPI
+    dotenv: ['.env/pypi.env']
+    cmds:
+      - echo "Pushing the changes to PYPI"
+      - poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD --skip-existing
+      - rm -r -f dist
+    silent: true
+
+  hooks.install:
+    desc: Install pre-commit hooks
+    cmds:
+      - echo "Installing pre-commit hooks"
+      - pre-commit install
+
+  hooks.run:
+    desc: Run pre-commit hooks
+    cmds:
+      - echo "Running pre-commit hooks"
+      - pre-commit run --all-files
+
+  hooks.update:
+    desc: Update pre-commit hooks
+    cmds:
+      - echo "Updating pre-commit hooks"
+      - pre-commit autoupdate --freeze

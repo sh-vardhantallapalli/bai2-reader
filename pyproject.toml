@@ -1,0 +1,154 @@
+[project]
+name = "bai2-reader"
+version = "0.0.2"
+description = "Utility to parse BAI2 files and export them to structured formats like CSV/JSON/Parquet"
+homepage = "https://github.com/sh-vardhantallapalli/bai2-reader.git"
+documentation = "https://bai2-reader.readthedocs.io/en/latest/"
+authors = [{name = "SaiHarsha Tallpalli", email = "ekharshavardhan851@gmail.com"}]
+readme = "README.md"
+
+requires-python = ">=3.13,<4.0.0"
+dependencies = [
+    "pydantic>=2.12.5,<3.0.0",
+    "pandas<=3.0.0"
+]
+
+
+
+
+[project.scripts]
+#This Section added automatically added using script: ci/rewrite_pyproject_toml_to_pep.py
+#####DO NOT CHANGE MANUALLY#####
+#use `poetry` commands regularly, PEP sections will be written by the above script
+#if the pyproject.toml is changed run `task rewrite-pyproject-toml`
+
+bai2 = "src.bai2_reader.cli:app"
+bai2-ui = "src.ui.cli:run_streamlit"
+
+[project.optional-dependencies]
+#This Section added automatically added using script: ci/rewrite_pyproject_toml_to_pep.py
+#####DO NOT CHANGE MANUALLY#####
+#use `poetry` commands regularly, PEP sections will be written by the above script
+#if the pyproject.toml is changed run `task rewrite-pyproject-toml`
+
+cli = ["typer>=0.23.0,<0.24.0"]
+excel = ["xlsxwriter==3.2.9"]
+ui = ["duckdb>=1.4.3,<2.0.0", "streamlit>=1.54.0,<2.0.0", "streamlit-aggrid==1.2.1.post2"]
+
+[project.dependency-groups]
+#This Section added automatically added using script: ci/rewrite_pyproject_toml_to_pep.py
+#####DO NOT CHANGE MANUALLY#####
+#use `poetry` commands regularly, PEP sections will be written by the above script
+#if the pyproject.toml is changed run `task rewrite-pyproject-toml`
+
+dev = ["pytest-cov==7.0.0", "pre-commit==4.5.1", "mkdocs-mermaid2-plugin==1.2.3", "tomlkit==0.14.0"]
+[tool.poetry]
+packages = [{ include = "src", from = "app"}]
+
+[tool.poetry.scripts]
+bai2 = "src.bai2_reader.cli:app"
+bai2-ui = "src.ui.cli:run_streamlit"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^7.0.0"
+pre-commit = "^4.5.1"
+mkdocs-mermaid2-plugin = "^1.2.3"
+tomlkit = "^0.14.0"
+
+[tool.poetry.group.cli]
+optional = true
+
+[tool.poetry.group.cli.dependencies]
+typer = ">=0.23.0,<0.24.0"
+
+[tool.poetry.group.excel]
+optional = true
+
+[tool.poetry.group.excel.dependencies]
+xlsxwriter = "^3.2.9"
+
+[tool.poetry.group.ui]
+optional = true
+
+[tool.poetry.group.ui.dependencies]
+duckdb = ">=1.4.3,<2.0.0"
+streamlit = ">=1.54.0,<2.0.0"
+streamlit-aggrid = "^1.2.1.post2"
+
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.8"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.13"
+ignore_missing_imports = true
+
+[tool.commitizen]
+version = "0.0.2"
+version_files = ["pyproject.toml:^version"]
+tag_format = "v$version"
+changelog_file = "docs/changelog.md"
+
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["core.tests", ]
+addopts = [
+    "--doctest-modules",
+    "--cov-failure-under=80",
+    "--cov=src"
+]
+
+
+[tool.ruff]
+
+fix = true
+target-version = "py38"
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".pyenv",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+
+include = [
+    "pyproject.toml",
+#    "app/**/*.py" # will disable ruff for all files in app directory once implemented
+    "app/src/**/*.py"
+]
+
+
+line-length = 120
+indent-width = 4
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+extend-select = [
+  "UP",  # pyupgrade
+  "D",   # pydocstyle
+]
+
+ignore = ["D415", "D205"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

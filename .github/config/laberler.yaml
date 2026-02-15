@@ -1,0 +1,26 @@
+---
+# https://github.com/marketplace/actions/labeler
+
+core:
+  - app/src/bai2_reader/*
+
+ui:
+  - app/src/ui/*
+  -
+tests:
+  - app/tests/*
+
+build:
+  - pyproject.toml
+  - poetry.lock
+  - ci/*
+
+cicd:
+  - .github/*
+  - .gitignore
+  - .pre-commit-config.yaml
+
+docs:
+  - docs/*
+  - README.md
+  - LICENSE

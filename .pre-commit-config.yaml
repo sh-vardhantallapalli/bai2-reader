@@ -1,0 +1,29 @@
+---
+default_stages: [pre-commit, pre-push]
+default_language_version:
+    python: python3
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
+      hooks:
+          - id: check-json
+          - id: end-of-file-fixer
+          - id: trailing-whitespace
+            exclude: ^(docs.*|README\.md)$
+          - id: check-added-large-files
+
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      rev: fa93bc3224c614a0e9786d3e2d3d48edcca246eb  # frozen: v0.15.1
+      hooks:
+        - id: ruff
+        - id: ruff-format
+#
+#    - repo: local
+#      hooks:
+#        - id: run-rewrite-pyproject-toml
+#          name: run-rewrite-pyproject-toml
+#          entry: task rewrite-pyproject-toml
+#          language: system
+#          # Use a regex to match only the specific file path
+#          files: ^pyproject.toml$
+#          pass_filenames: false
