@@ -1644,18 +1644,6 @@ files = [
 six = ">=1.5"
 
 [[package]]
-name = "python-decouple"
-version = "3.8"
-description = "Strict separation of settings from code."
-optional = false
-python-versions = "*"
-groups = ["main", "ui"]
-files = [
-    {file = "python-decouple-3.8.tar.gz", hash = "sha256:ba6e2657d4f376ecc46f77a3a615e058d93ba5e465c01bbe57289bfb7cce680f"},
-    {file = "python_decouple-3.8-py3-none-any.whl", hash = "sha256:d0d45340815b25f4de59c974b855bb38d03151d81b037d9e3f463b0c9f8cbd66"},
-]
-
-[[package]]
 name = "pytz"
 version = "2025.2"
 description = "World timezone definitions, modern and historical"
@@ -2059,23 +2047,6 @@ sql = ["SQLAlchemy (>=2.0.0)"]
 starlette = ["anyio (>=4.0.0)", "itsdangerous (>=2.1.2)", "python-multipart (>=0.0.10)", "starlette (>=0.40.0)", "uvicorn (>=0.30.0)", "websockets (>=12.0.0)"]
 
 [[package]]
-name = "streamlit-aggrid"
-version = "1.2.1.post2"
-description = "Streamlit component implementation of ag-grid"
-optional = false
-python-versions = ">=3.10"
-groups = ["main", "ui"]
-files = [
-    {file = "streamlit_aggrid-1.2.1.post2-py3-none-any.whl", hash = "sha256:a812274e69bc6dcdebdd390c2eca7d0502e90420b869d4abf9d74ca3af47bc51"},
-    {file = "streamlit_aggrid-1.2.1.post2.tar.gz", hash = "sha256:ad186998894af9356d7fa1d6de9f324a376714583cccc31d87c8c003334089fc"},
-]
-
-[package.dependencies]
-pandas = ">=1.4.0"
-python-decouple = "*"
-streamlit = ">=1.2"
-
-[[package]]
 name = "tenacity"
 version = "9.1.4"
 description = "Retry code until it succeeds"
@@ -2290,11 +2261,12 @@ files = [
 ]
 
 [extras]
+all = ["duckdb", "streamlit", "typer", "xlsxwriter"]
 cli = ["typer"]
 excel = ["xlsxwriter"]
-ui = ["duckdb", "streamlit", "streamlit-aggrid"]
+ui = ["duckdb", "streamlit"]
 
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0.0"
-content-hash = "3e6dc4c3be3b077783ae9096eb4a779e85fb70478e3ace750050cb1941e33f08"
+content-hash = "6b426f0115a7676e0bd8fec0694f8b735d49ade1c881da5e59b36b4d2f46c133"

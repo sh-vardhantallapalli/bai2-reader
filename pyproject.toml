@@ -1,6 +1,6 @@
 [project]
 name = "bai2-reader"
-version = "0.0.2"
+version = "0.0.3"
 description = "Utility to parse BAI2 files and export them to structured formats like CSV/JSON/Parquet"
 homepage = "https://github.com/sh-vardhantallapalli/bai2-reader.git"
 documentation = "https://bai2-reader.readthedocs.io/en/latest/"
@@ -12,8 +12,6 @@ dependencies = [
     "pydantic>=2.12.5,<3.0.0",
     "pandas<=3.0.0"
 ]
-
-
 
 
 [project.scripts]
@@ -33,7 +31,8 @@ bai2-ui = "src.ui.cli:run_streamlit"
 
 cli = ["typer>=0.23.0,<0.24.0"]
 excel = ["xlsxwriter==3.2.9"]
-ui = ["duckdb>=1.4.3,<2.0.0", "streamlit>=1.54.0,<2.0.0", "streamlit-aggrid==1.2.1.post2"]
+ui = ["duckdb>=1.4.3,<2.0.0", "streamlit>=1.54.0,<2.0.0"]
+all = ["typer>=0.23.0,<0.24.0", "xlsxwriter==3.2.9", "duckdb>=1.4.3,<2.0.0", "streamlit>=1.54.0,<2.0.0"]
 
 [project.dependency-groups]
 #This Section added automatically added using script: ci/rewrite_pyproject_toml_to_pep.py
@@ -76,7 +75,6 @@ optional = true
 [tool.poetry.group.ui.dependencies]
 duckdb = ">=1.4.3,<2.0.0"
 streamlit = ">=1.54.0,<2.0.0"
-streamlit-aggrid = "^1.2.1.post2"
 
 [tool.poetry.requires-plugins]
 poetry-plugin-export = ">=1.8"
@@ -90,7 +88,7 @@ python_version = "3.13"
 ignore_missing_imports = true
 
 [tool.commitizen]
-version = "0.0.2"
+version = "0.0.3"
 version_files = ["pyproject.toml:^version"]
 tag_format = "v$version"
 changelog_file = "docs/changelog.md"

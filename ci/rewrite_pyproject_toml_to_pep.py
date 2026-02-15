@@ -77,6 +77,7 @@ def convert_poetry_format_to_pep(
     groups = poetry_tool.get("group", {})
 
     groups_to_rewrite = []
+    all_deps = []
 
     for group_name, group_data in groups.items():
         deps = group_data.get("dependencies", {})
@@ -105,7 +106,10 @@ def convert_poetry_format_to_pep(
             config["project"]["dependency-groups"]["dev"] = extra_list
         else:
             optional_deps[group_name] = extra_list
+            all_deps.extend(extra_list)
         groups_to_rewrite.append(group_name)
+
+    config["project"]["optional-dependencies"]["all"] = all_deps
 
     if remove_poetry_optional_deps:
         # Clean up the old groups

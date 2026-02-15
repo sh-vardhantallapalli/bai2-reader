@@ -9,7 +9,6 @@ theme:
   highlights: true
 plugins:
   - search
-  - mermaid2
   - mkdocstrings:
       handlers:
         # See: https://mkdocstrings.github.io/python/usage/
@@ -20,6 +19,5 @@ plugins:
 
 nav:
   - Home: index.md
-  - CLI Reference: cli-reference.md
   - Change Log: changelog.md
   - Contribute: contributing.md
