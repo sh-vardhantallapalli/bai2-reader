@@ -1,211 +1,1769 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Pydantic & Enums - BAI2-Reader</title>
-    <link rel="stylesheet" href="../css/theme.css" />
-    <link rel="stylesheet" href="../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
-        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
     
-      <script>
-        // Current page data
-        var mkdocs_page_name = "Pydantic \u0026 Enums";
-        var mkdocs_page_input_path = "pydantic-and-enums.md";
-        var mkdocs_page_url = null;
-      </script>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../changelog/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
-    <!--[if lt IE 9]>
-      <script src="../js/html5shiv.min.js"></script>
-    <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-      <script>hljs.highlightAll();</script> 
-</head>
+    
+      
+        <title>Pydantic & Enums - BAI2-Reader</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
 
-<body class="wy-body-for-nav" role="document">
 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-    <div class="wy-side-scroll">
-      <div class="wy-side-nav-search">
-          <a href=".." class="icon icon-home"> BAI2-Reader
-        </a><div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
-  </form>
-</div>
-      </div>
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
-                </li>
-              </ul>
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Pydantic & Enums</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#pydantic-models">Pydantic Models</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.Bai2Model">Bai2Model</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.FileHeader">FileHeader</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.GroupSection">GroupSection</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.GroupHeader">GroupHeader</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.AccountSection">AccountSection</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.AccountIdentifier">AccountIdentifier</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.TransactionSection">TransactionSection</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.Transaction">Transaction</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.AccountTrailer">AccountTrailer</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.GroupTrailer">GroupTrailer</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.FileTrailer">FileTrailer</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.Continuation">Continuation</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#enumerations">Enumerations</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.Record">Record</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.account_identifier">account_identifier</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.account_trailer">account_trailer</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.continuation">continuation</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.file_header">file_header</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.file_trailer">file_trailer</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.group_header">group_header</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.group_trailer">group_trailer</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.transaction">transaction</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus">GroupStatus</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus.delete">delete</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus.new">new</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus.test_only">test_only</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus.update">update</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier">AsOfDateModifier</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier.final_previous_day">final_previous_day</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier.final_same_day">final_same_day</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier.interim_previous_day">interim_previous_day</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier.interim_same_day">interim_same_day</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.FundsType">FundsType</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.distributed_availability">distributed_availability</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.distributed_availability_simple">distributed_availability_simple</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.immediate_availability">immediate_availability</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.one_day_availability">one_day_availability</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.two_day_availability">two_day_availability</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.unknown_availability">unknown_availability</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.value_dated">value_dated</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.TransactionType">TransactionType</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TransactionType.credit">credit</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TransactionType.debit">debit</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TransactionType.misc">misc</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodeLevel">TypeCodeLevel</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodeLevel.detail">detail</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodeLevel.status">status</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodeLevel.summary">summary</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodes">TypeCodes</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodes.type_codes">type_codes</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodes.TypeCode">TypeCode</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodes.get_type_code">get_type_code</a>
-    </li>
-        </ul>
-    </li>
-        </ul>
-    </li>
-    </ul>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../changelog/">Change Log</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../contribute/">Contribute</a>
-                </li>
-              </ul>
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pydantic-models-and-enums" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="BAI2-Reader" class="md-header__button md-logo" aria-label="BAI2-Reader" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BAI2-Reader
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Pydantic & Enums
+            
+          </span>
+        </div>
       </div>
     </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="..">BAI2-Reader</a>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
         
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
       </nav>
-      <div class="wy-nav-content">
-        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Pydantic & Enums</li>
-    <li class="wy-breadcrumbs-aside">
-    </li>
-  </ul>
-  <hr/>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-            <div class="section" itemprop="articleBody">
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
               
-                <h1 id="pydantic-models-and-enums">Pydantic Models and Enums</h1>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BAI2-Reader" class="md-nav__button md-logo" aria-label="BAI2-Reader" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BAI2-Reader
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pydantic & Enums
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pydantic & Enums
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pydantic-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pydantic Models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pydantic Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.Bai2Model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bai2Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.FileHeader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FileHeader
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.GroupSection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupSection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.GroupHeader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupHeader
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.AccountSection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccountSection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.AccountIdentifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccountIdentifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.TransactionSection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TransactionSection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.Transaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transaction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.AccountTrailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccountTrailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.GroupTrailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupTrailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.FileTrailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FileTrailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.Continuation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Continuation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enumerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Record
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Record">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.account_identifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        account_identifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.account_trailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        account_trailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.continuation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        continuation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.file_header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        file_header
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.file_trailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        file_trailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.group_header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        group_header
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.group_trailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        group_trailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.transaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        transaction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupStatus
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GroupStatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus.delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus.new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        new
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus.test_only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        test_only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus.update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AsOfDateModifier
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AsOfDateModifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier.final_previous_day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        final_previous_day
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier.final_same_day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        final_same_day
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier.interim_previous_day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        interim_previous_day
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier.interim_same_day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        interim_same_day
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FundsType
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FundsType">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.distributed_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distributed_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.distributed_availability_simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distributed_availability_simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.immediate_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        immediate_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.one_day_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        one_day_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.two_day_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        two_day_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.unknown_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        unknown_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.value_dated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        value_dated
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TransactionType" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TransactionType
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TransactionType">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TransactionType.credit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        credit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TransactionType.debit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        debit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TransactionType.misc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        misc
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodeLevel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TypeCodeLevel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TypeCodeLevel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodeLevel.detail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        detail
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodeLevel.status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodeLevel.summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TypeCodes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TypeCodes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.type_codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        type_codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TypeCode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TypeCode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode.description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        description
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode.transaction_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        transaction_type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode.type_level_code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        type_level_code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.get_type_code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_type_code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Change Log
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contribute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pydantic-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pydantic Models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pydantic Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.Bai2Model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bai2Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.FileHeader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FileHeader
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.GroupSection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupSection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.GroupHeader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupHeader
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.AccountSection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccountSection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.AccountIdentifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccountIdentifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.TransactionSection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TransactionSection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.Transaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transaction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.AccountTrailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccountTrailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.GroupTrailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupTrailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.FileTrailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FileTrailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.models.Continuation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Continuation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enumerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Record
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Record">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.account_identifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        account_identifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.account_trailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        account_trailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.continuation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        continuation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.file_header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        file_header
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.file_trailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        file_trailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.group_header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        group_header
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.group_trailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        group_trailer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.Record.transaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        transaction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupStatus
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GroupStatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus.delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus.new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        new
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus.test_only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        test_only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.GroupStatus.update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AsOfDateModifier
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AsOfDateModifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier.final_previous_day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        final_previous_day
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier.final_same_day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        final_same_day
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier.interim_previous_day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        interim_previous_day
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.AsOfDateModifier.interim_same_day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        interim_same_day
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FundsType
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FundsType">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.distributed_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distributed_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.distributed_availability_simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distributed_availability_simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.immediate_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        immediate_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.one_day_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        one_day_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.two_day_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        two_day_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.unknown_availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        unknown_availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.FundsType.value_dated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        value_dated
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TransactionType" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TransactionType
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TransactionType">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TransactionType.credit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        credit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TransactionType.debit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        debit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TransactionType.misc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        misc
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodeLevel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TypeCodeLevel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TypeCodeLevel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodeLevel.detail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        detail
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodeLevel.status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodeLevel.summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TypeCodes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TypeCodes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.type_codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        type_codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TypeCode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TypeCode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode.description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        description
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode.transaction_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        transaction_type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode.type_level_code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        type_level_code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.TypeCode.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.bai2_reader.enums.TypeCodes.get_type_code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_type_code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="pydantic-models-and-enums">Pydantic Models and Enums</h1>
 <h2 id="pydantic-models">Pydantic Models</h2>
 <ul>
 <li><strong>Bai2Model</strong>
@@ -231,51 +1789,69 @@
         <p>The model for the BAI2 file, which will be the output of the parser</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>header</code></b>
-                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.FileHeader" href="#src.bai2_reader.models.FileHeader">FileHeader</a> | None</code>, default:
-                      <code>None</code>
-)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>header</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.FileHeader" href="#src.bai2_reader.models.FileHeader">FileHeader</a> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The header record for this file, record code: '01'</p>
               </div>
-            </li>
-            <li>
-              <b><code>groups</code></b>
-                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.GroupSection" href="#src.bai2_reader.models.GroupSection">GroupSection</a>]</code>, default:
-                      <code>&lt;dynamic&gt;</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>groups</code>
+            </td>
+            <td>
+                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.GroupSection" href="#src.bai2_reader.models.GroupSection">GroupSection</a>]</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The groups for this file, which is the list of group sections that follow the header record</p>
               </div>
-            </li>
-            <li>
-              <b><code>file_trailer</code></b>
-                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.FileTrailer" href="#src.bai2_reader.models.FileTrailer">FileTrailer</a></code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>&lt;dynamic&gt;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_trailer</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.FileTrailer" href="#src.bai2_reader.models.FileTrailer">FileTrailer</a></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The file trailer record for this file, record code: '99'</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -301,7 +1877,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>FileHeader</strong>
@@ -327,107 +1902,181 @@
         <p>The header record TransactionType.debit, which will be the first line of the file, record code: '01'</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>record_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record code for this line</p>
               </div>
-            </li>
-            <li>
-              <b><code>record_counter</code></b>
-                  (<code><span title="int">int</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_counter</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
               </div>
-            </li>
-            <li>
-              <b><code>sender</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sender</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The sender ID</p>
               </div>
-            </li>
-            <li>
-              <b><code>receiver</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>receiver</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The receiver ID</p>
               </div>
-            </li>
-            <li>
-              <b><code>file_date</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_date</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The file date</p>
               </div>
-            </li>
-            <li>
-              <b><code>file_time</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_time</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The file time</p>
               </div>
-            </li>
-            <li>
-              <b><code>file_id</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_id</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The file ID</p>
               </div>
-            </li>
-            <li>
-              <b><code>record_length</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_length</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record length, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>block_size</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>block_size</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The block size, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>version_number</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>version_number</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The version number, which is optional</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -453,7 +2102,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>GroupSection</strong>
@@ -482,51 +2130,69 @@
 - and the group trailer record</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>group_header</code></b>
-                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.GroupHeader" href="#src.bai2_reader.models.GroupHeader">GroupHeader</a> | None</code>, default:
-                      <code>None</code>
-)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>group_header</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.GroupHeader" href="#src.bai2_reader.models.GroupHeader">GroupHeader</a> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The group header record, record code: '02'</p>
               </div>
-            </li>
-            <li>
-              <b><code>accounts</code></b>
-                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.AccountSection" href="#src.bai2_reader.models.AccountSection">AccountSection</a>]</code>, default:
-                      <code>&lt;dynamic&gt;</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>accounts</code>
+            </td>
+            <td>
+                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.AccountSection" href="#src.bai2_reader.models.AccountSection">AccountSection</a>]</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The accounts for this group, which is the list of account sections that follow the group header record</p>
               </div>
-            </li>
-            <li>
-              <b><code>group_trailer</code></b>
-                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.GroupTrailer" href="#src.bai2_reader.models.GroupTrailer">GroupTrailer</a></code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>&lt;dynamic&gt;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>group_trailer</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.GroupTrailer" href="#src.bai2_reader.models.GroupTrailer">GroupTrailer</a></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The group trailer record for this group, record code: '98'</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -552,7 +2218,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>GroupHeader</strong>
@@ -578,95 +2243,165 @@
         <p>The group header record TransactionType.debit, which will be the first line of each group, record code: '02'</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>record_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record code for this line</p>
               </div>
-            </li>
-            <li>
-              <b><code>record_counter</code></b>
-                  (<code><span title="int">int</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_counter</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
               </div>
-            </li>
-            <li>
-              <b><code>receiver</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>receiver</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The receiver ID</p>
               </div>
-            </li>
-            <li>
-              <b><code>sender</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sender</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The sender ID</p>
               </div>
-            </li>
-            <li>
-              <b><code>group_status</code></b>
-                  (<code><span title="GroupStatus">GroupStatus</span> | None</code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>group_status</code>
+            </td>
+            <td>
+                  <code><span title="GroupStatus">GroupStatus</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The group status code</p>
               </div>
-            </li>
-            <li>
-              <b><code>as_of_date</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>as_of_date</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The as of date</p>
               </div>
-            </li>
-            <li>
-              <b><code>as_of_time</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>as_of_time</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The as of time</p>
               </div>
-            </li>
-            <li>
-              <b><code>currency_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>currency_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The currency code</p>
               </div>
-            </li>
-            <li>
-              <b><code>as_of_date_modifier</code></b>
-                  (<code><span title="AsOfDateModifier">AsOfDateModifier</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>as_of_date_modifier</code>
+            </td>
+            <td>
+                  <code><span title="AsOfDateModifier">AsOfDateModifier</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The as of date modifier, which is optional</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -692,7 +2427,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>AccountSection</strong>
@@ -722,61 +2456,85 @@
 - and the account trailer record</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>account_identifier</code></b>
-                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.AccountIdentifier" href="#src.bai2_reader.models.AccountIdentifier">AccountIdentifier</a> | None</code>, default:
-                      <code>None</code>
-)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>account_identifier</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.AccountIdentifier" href="#src.bai2_reader.models.AccountIdentifier">AccountIdentifier</a> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The account identifier record, record code: '03'</p>
               </div>
-            </li>
-            <li>
-              <b><code>summary</code></b>
-                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.Continuation" href="#src.bai2_reader.models.Continuation">Continuation</a>]</code>, default:
-                      <code>&lt;dynamic&gt;</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>summary</code>
+            </td>
+            <td>
+                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.Continuation" href="#src.bai2_reader.models.Continuation">Continuation</a>]</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The summary of this account, which is the continuation records that follow the account identifier record. all '88' after '03'</p>
               </div>
-            </li>
-            <li>
-              <b><code>transactions</code></b>
-                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.TransactionSection" href="#src.bai2_reader.models.TransactionSection">TransactionSection</a>]</code>, default:
-                      <code>&lt;dynamic&gt;</code>
-)
-              –
+            </td>
+            <td>
+                  <code>&lt;dynamic&gt;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>transactions</code>
+            </td>
+            <td>
+                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.TransactionSection" href="#src.bai2_reader.models.TransactionSection">TransactionSection</a>]</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The transactions for this account, which is the list of transaction sections that follow the account identifier record</p>
               </div>
-            </li>
-            <li>
-              <b><code>account_trailer</code></b>
-                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.AccountTrailer" href="#src.bai2_reader.models.AccountTrailer">AccountTrailer</a></code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>&lt;dynamic&gt;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>account_trailer</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.AccountTrailer" href="#src.bai2_reader.models.AccountTrailer">AccountTrailer</a></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The account trailer record for this account, record code: '49'</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -802,7 +2560,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>AccountIdentifier</strong>
@@ -828,105 +2585,165 @@
         <p>The account identifier record, which will be the first line of each account, record code: '03'</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>record_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record code for this line</p>
               </div>
-            </li>
-            <li>
-              <b><code>record_counter</code></b>
-                  (<code><span title="int">int</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_counter</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
               </div>
-            </li>
-            <li>
-              <b><code>account_number</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>account_number</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The account number</p>
               </div>
-            </li>
-            <li>
-              <b><code>currency_code</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>currency_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The currency code, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>type_code</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>type_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The type code, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>opening_balance</code></b>
-                  (<code><span title="float">float</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>opening_balance</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The opening balance, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>item_count</code></b>
-                  (<code><span title="int">int</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>item_count</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The item count, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>fund_type</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>fund_type</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The fund type, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>rest_of_record</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rest_of_record</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The rest of the record, which is optional, this is for the case when there are more fields than expected, we will store the rest of the record in this field for future use</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -952,7 +2769,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>TransactionSection</strong>
@@ -980,39 +2796,53 @@
 - and the continuation records that follow the transaction detail</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>transaction</code></b>
-                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.Transaction" href="#src.bai2_reader.models.Transaction">Transaction</a></code>)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>transaction</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.Transaction" href="#src.bai2_reader.models.Transaction">Transaction</a></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The transaction detail, record code: '16'</p>
               </div>
-            </li>
-            <li>
-              <b><code>summary</code></b>
-                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.Continuation" href="#src.bai2_reader.models.Continuation">Continuation</a>]</code>, default:
-                      <code>&lt;dynamic&gt;</code>
-)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>summary</code>
+            </td>
+            <td>
+                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.Continuation" href="#src.bai2_reader.models.Continuation">Continuation</a>]</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The summary of this transaction, which is the continuation records that follow the transaction detail record</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>&lt;dynamic&gt;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -1038,7 +2868,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>Transaction</strong>
@@ -1064,113 +2893,181 @@
         <p>The transaction record which will be the line of each transaction. '16' record code</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>record_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record code for this line</p>
               </div>
-            </li>
-            <li>
-              <b><code>record_counter</code></b>
-                  (<code><span title="int">int</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_counter</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
               </div>
-            </li>
-            <li>
-              <b><code>type_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>type_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The type code for this transaction</p>
               </div>
-            </li>
-            <li>
-              <b><code>amount</code></b>
-                  (<code><span title="float">float</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>amount</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The amount for this transaction</p>
               </div>
-            </li>
-            <li>
-              <b><code>funds_type</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>funds_type</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The funds type for this transaction, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>bank_reference_number</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>bank_reference_number</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The bank reference number for this transaction, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>customer_reference_number</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>customer_reference_number</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The customer reference number for this transaction, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>description</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>description</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The text for this transaction, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>transaction_type</code></b>
-                  (<code><span title="TransactionType">TransactionType</span></code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>transaction_type</code>
+            </td>
+            <td>
+                  <code><span title="TransactionType">TransactionType</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The transaction type for this transaction, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>rest_of_record</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rest_of_record</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The rest of the record, which is optional, this is for the case when there are more fields than expected, we will store the rest of the record in this field for future use</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -1196,7 +3093,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>AccountTrailer</strong>
@@ -1222,57 +3118,85 @@
         <p>The account trailer record which will be the last line of each account, record code: '49'</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>record_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record code for this line</p>
               </div>
-            </li>
-            <li>
-              <b><code>record_counter</code></b>
-                  (<code><span title="int">int</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_counter</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
               </div>
-            </li>
-            <li>
-              <b><code>account_control_total</code></b>
-                  (<code><span title="float">float</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>account_control_total</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The account control total, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>num_of_records</code></b>
-                  (<code><span title="int">int</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>num_of_records</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of records for this account, which is optional</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -1298,7 +3222,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>GroupTrailer</strong>
@@ -1324,67 +3247,101 @@
         <p>The group trailer record TransactionType.debit, which will be the last line of each group, record code: '98'</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>record_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record code for this line</p>
               </div>
-            </li>
-            <li>
-              <b><code>record_counter</code></b>
-                  (<code><span title="int">int</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_counter</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
               </div>
-            </li>
-            <li>
-              <b><code>group_control_total</code></b>
-                  (<code><span title="float">float</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>group_control_total</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The group control total, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>num_of_accounts</code></b>
-                  (<code><span title="int">int</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>num_of_accounts</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of accounts for this group, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>num_of_records</code></b>
-                  (<code><span title="int">int</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>num_of_records</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of records for this group, which is optional</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -1410,7 +3367,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>FileTrailer</strong>
@@ -1436,67 +3392,101 @@
         <p>The file trailer record TransactionType.debit, which will be the last line of the file, record code: '99'</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>record_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record code for this line</p>
               </div>
-            </li>
-            <li>
-              <b><code>record_counter</code></b>
-                  (<code><span title="int">int</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_counter</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
               </div>
-            </li>
-            <li>
-              <b><code>file_control_total</code></b>
-                  (<code><span title="float">float</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_control_total</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The file control total, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>num_of_groups</code></b>
-                  (<code><span title="int">int</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>num_of_groups</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of groups for this file, which is optional</p>
               </div>
-            </li>
-            <li>
-              <b><code>num_of_records</code></b>
-                  (<code><span title="int">int</span> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>num_of_records</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of records for this file, which is optional</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -1522,7 +3512,6 @@
   </div>
 
     </div>
-
 
 </div><ul>
 <li><strong>Continuation</strong>
@@ -1548,45 +3537,69 @@
         <p>The continuation record, which will be the line of each continuation, record code: '88'</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>record_code</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_code</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record code for this line</p>
               </div>
-            </li>
-            <li>
-              <b><code>record_counter</code></b>
-                  (<code><span title="int">int</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record_counter</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
               </div>
-            </li>
-            <li>
-              <b><code>record</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>record</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The continuation record, which will be used when the record is too long and needs to be continued in the next line</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -1613,7 +3626,6 @@
 
     </div>
 
-
 </div><hr />
 <h2 id="enumerations">Enumerations</h2>
 <ul>
@@ -1638,6 +3650,7 @@
 
 
         <p>An enumeration representing the different types of records in a BAI2 file.</p>
+
 
 
 
@@ -1833,7 +3846,6 @@
 
     </div>
 
-
 </div><ul>
 <li><strong>GroupStatus</strong>
 </li>
@@ -1856,6 +3868,7 @@
 
 
         <p>An enumeration representing the different group status codes in a BAI2 file.</p>
+
 
 
 
@@ -1967,7 +3980,6 @@
 
     </div>
 
-
 </div><ul>
 <li><strong>AsOfDateModifier</strong>
 </li>
@@ -1990,6 +4002,7 @@
 
 
         <p>An enumeration representing the different as-of date modifiers in a BAI2 file.</p>
+
 
 
 
@@ -2101,7 +4114,6 @@
 
     </div>
 
-
 </div><ul>
 <li><strong>FundsType</strong>
 </li>
@@ -2124,6 +4136,7 @@
 
 
         <p>An enumeration representing the different funds types in a BAI2 file.</p>
+
 
 
 
@@ -2298,7 +4311,6 @@
 
     </div>
 
-
 </div><ul>
 <li><strong>TransactionType</strong>
 </li>
@@ -2321,6 +4333,7 @@
 
 
         <p>An enumeration representing the different transaction types in a BAI2 file.</p>
+
 
 
 
@@ -2411,7 +4424,6 @@
 
     </div>
 
-
 </div><ul>
 <li><strong>TypeCodeLevel</strong>
 </li>
@@ -2434,6 +4446,7 @@
 
 
         <p>An enumeration representing the different type code levels in a BAI2 file.</p>
+
 
 
 
@@ -2524,7 +4537,6 @@
 
     </div>
 
-
 </div><ul>
 <li><strong>TypeCodes</strong>
 </li>
@@ -2548,6 +4560,7 @@
 
         <p>A class representing the different type codes in a BAI2 file,
 including the transaction type, type level code, and description.</p>
+
 
 
 
@@ -2615,51 +4628,69 @@ Thanks to : https://github.com/mrrozz/bai2-codes-csv/blob/master/bai-codes.csv</
 including the transaction type, type level code, and description.</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>transaction_type</code></b>
-                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.enums.TransactionType" href="#src.bai2_reader.enums.TransactionType">TransactionType</a> | None</code>, default:
-                      <code>None</code>
-)
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>transaction_type</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="src.bai2_reader.enums.TransactionType" href="#src.bai2_reader.enums.TransactionType">TransactionType</a> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 
               </div>
-            </li>
-            <li>
-              <b><code>type_level_code</code></b>
-                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.enums.TypeCodeLevel" href="#src.bai2_reader.enums.TypeCodeLevel">TypeCodeLevel</a> | None</code>, default:
-                      <code>None</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>type_level_code</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="src.bai2_reader.enums.TypeCodeLevel" href="#src.bai2_reader.enums.TypeCodeLevel">TypeCodeLevel</a> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 
               </div>
-            </li>
-            <li>
-              <b><code>description</code></b>
-                  (<code><span title="str">str</span> | None</code>, default:
-                      <code>&#39;&#39;</code>
-)
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>description</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>&#39;&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -2765,7 +4796,6 @@ including the transaction type, type level code, and description.</p>
 
     </div>
 
-
 </div>
 
 
@@ -2795,53 +4825,61 @@ otherwise it will return empty details and log a warning</p>
 
     </div>
 
-
 </div>
-              
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
             </div>
-          </div><footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../changelog/" class="btn btn-neutral float-right" title="Change Log">Next <span class="icon icon-circle-arrow-right"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-  </div>
-
-  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-</footer>
           
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-      </div>
-
-    </section>
-
-  </div>
-
-  <div class="rst-versions" role="note" aria-label="Versions">
-  <span class="rst-current-version" data-toggle="rst-current-version">
-    
-    
-      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
-    
-    
-      <span><a href="../changelog/" style="color: #fcfcfc">Next &raquo;</a></span>
-    
-  </span>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
 </div>
-    <script src="../js/jquery-3.6.0.min.js"></script>
-    <script>var base_url = "..";</script>
-    <script src="../js/theme_extra.js"></script>
-    <script src="../js/theme.js"></script>
-      <script src="../search/main.js"></script>
-    <script>
-        jQuery(function () {
-            SphinxRtdTheme.Navigation.enable(true);
-        });
-    </script>
-
-</body>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
 </html>
