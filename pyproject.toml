@@ -1,6 +1,6 @@
 [project]
 name = "bai2-reader"
-version = "0.0.3"
+version = "0.0.4"
 description = "Utility to parse BAI2 files and export them to structured formats like CSV/JSON/Parquet"
 homepage = "https://github.com/sh-vardhantallapalli/bai2-reader.git"
 documentation = "https://bai2-reader.readthedocs.io/en/latest/"
@@ -91,7 +91,7 @@ python_version = "3.13"
 ignore_missing_imports = true
 
 [tool.commitizen]
-version = "0.0.3"
+version = "0.0.4"
 version_files = ["pyproject.toml:^version"]
 tag_format = "v$version"
 changelog_file = "docs/changelog.md"
