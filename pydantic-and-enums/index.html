@@ -1,0 +1,2847 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Pydantic & Enums - BAI2-Reader</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Pydantic \u0026 Enums";
+        var mkdocs_page_input_path = "pydantic-and-enums.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> BAI2-Reader
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Pydantic & Enums</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#pydantic-models">Pydantic Models</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.Bai2Model">Bai2Model</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.FileHeader">FileHeader</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.GroupSection">GroupSection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.GroupHeader">GroupHeader</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.AccountSection">AccountSection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.AccountIdentifier">AccountIdentifier</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.TransactionSection">TransactionSection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.Transaction">Transaction</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.AccountTrailer">AccountTrailer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.GroupTrailer">GroupTrailer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.FileTrailer">FileTrailer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.models.Continuation">Continuation</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#enumerations">Enumerations</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.Record">Record</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.account_identifier">account_identifier</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.account_trailer">account_trailer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.continuation">continuation</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.file_header">file_header</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.file_trailer">file_trailer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.group_header">group_header</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.group_trailer">group_trailer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.Record.transaction">transaction</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus">GroupStatus</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus.delete">delete</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus.new">new</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus.test_only">test_only</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.GroupStatus.update">update</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier">AsOfDateModifier</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier.final_previous_day">final_previous_day</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier.final_same_day">final_same_day</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier.interim_previous_day">interim_previous_day</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.AsOfDateModifier.interim_same_day">interim_same_day</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.FundsType">FundsType</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.distributed_availability">distributed_availability</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.distributed_availability_simple">distributed_availability_simple</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.immediate_availability">immediate_availability</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.one_day_availability">one_day_availability</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.two_day_availability">two_day_availability</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.unknown_availability">unknown_availability</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.FundsType.value_dated">value_dated</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.TransactionType">TransactionType</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TransactionType.credit">credit</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TransactionType.debit">debit</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TransactionType.misc">misc</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodeLevel">TypeCodeLevel</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodeLevel.detail">detail</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodeLevel.status">status</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodeLevel.summary">summary</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodes">TypeCodes</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodes.type_codes">type_codes</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodes.TypeCode">TypeCode</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#src.bai2_reader.enums.TypeCodes.get_type_code">get_type_code</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../changelog/">Change Log</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../contribute/">Contribute</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">BAI2-Reader</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Pydantic & Enums</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="pydantic-models-and-enums">Pydantic Models and Enums</h1>
+<h2 id="pydantic-models">Pydantic Models</h2>
+<ul>
+<li><strong>Bai2Model</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.Bai2Model" class="doc doc-heading">
+            <code>src.bai2_reader.models.Bai2Model</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The model for the BAI2 file, which will be the output of the parser</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>header</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.FileHeader" href="#src.bai2_reader.models.FileHeader">FileHeader</a> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The header record for this file, record code: '01'</p>
+              </div>
+            </li>
+            <li>
+              <b><code>groups</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.GroupSection" href="#src.bai2_reader.models.GroupSection">GroupSection</a>]</code>, default:
+                      <code>&lt;dynamic&gt;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The groups for this file, which is the list of group sections that follow the header record</p>
+              </div>
+            </li>
+            <li>
+              <b><code>file_trailer</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.FileTrailer" href="#src.bai2_reader.models.FileTrailer">FileTrailer</a></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The file trailer record for this file, record code: '99'</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>FileHeader</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.FileHeader" class="doc doc-heading">
+            <code>src.bai2_reader.models.FileHeader</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The header record TransactionType.debit, which will be the first line of the file, record code: '01'</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>record_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record code for this line</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record_counter</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
+              </div>
+            </li>
+            <li>
+              <b><code>sender</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The sender ID</p>
+              </div>
+            </li>
+            <li>
+              <b><code>receiver</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The receiver ID</p>
+              </div>
+            </li>
+            <li>
+              <b><code>file_date</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The file date</p>
+              </div>
+            </li>
+            <li>
+              <b><code>file_time</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The file time</p>
+              </div>
+            </li>
+            <li>
+              <b><code>file_id</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The file ID</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record_length</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The record length, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>block_size</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The block size, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>version_number</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The version number, which is optional</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>GroupSection</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.GroupSection" class="doc doc-heading">
+            <code>src.bai2_reader.models.GroupSection</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The group section for each group, which will contain
+- the group header record,
+- the account sections,
+- and the group trailer record</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>group_header</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.GroupHeader" href="#src.bai2_reader.models.GroupHeader">GroupHeader</a> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The group header record, record code: '02'</p>
+              </div>
+            </li>
+            <li>
+              <b><code>accounts</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.AccountSection" href="#src.bai2_reader.models.AccountSection">AccountSection</a>]</code>, default:
+                      <code>&lt;dynamic&gt;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The accounts for this group, which is the list of account sections that follow the group header record</p>
+              </div>
+            </li>
+            <li>
+              <b><code>group_trailer</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.GroupTrailer" href="#src.bai2_reader.models.GroupTrailer">GroupTrailer</a></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The group trailer record for this group, record code: '98'</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>GroupHeader</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.GroupHeader" class="doc doc-heading">
+            <code>src.bai2_reader.models.GroupHeader</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The group header record TransactionType.debit, which will be the first line of each group, record code: '02'</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>record_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record code for this line</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record_counter</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
+              </div>
+            </li>
+            <li>
+              <b><code>receiver</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The receiver ID</p>
+              </div>
+            </li>
+            <li>
+              <b><code>sender</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The sender ID</p>
+              </div>
+            </li>
+            <li>
+              <b><code>group_status</code></b>
+                  (<code><span title="GroupStatus">GroupStatus</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>The group status code</p>
+              </div>
+            </li>
+            <li>
+              <b><code>as_of_date</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The as of date</p>
+              </div>
+            </li>
+            <li>
+              <b><code>as_of_time</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The as of time</p>
+              </div>
+            </li>
+            <li>
+              <b><code>currency_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The currency code</p>
+              </div>
+            </li>
+            <li>
+              <b><code>as_of_date_modifier</code></b>
+                  (<code><span title="AsOfDateModifier">AsOfDateModifier</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The as of date modifier, which is optional</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>AccountSection</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.AccountSection" class="doc doc-heading">
+            <code>src.bai2_reader.models.AccountSection</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Account section for each account, which will contain
+- the account identifier record,
+- account summary
+- the transaction sections,
+- and the account trailer record</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>account_identifier</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.AccountIdentifier" href="#src.bai2_reader.models.AccountIdentifier">AccountIdentifier</a> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The account identifier record, record code: '03'</p>
+              </div>
+            </li>
+            <li>
+              <b><code>summary</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.Continuation" href="#src.bai2_reader.models.Continuation">Continuation</a>]</code>, default:
+                      <code>&lt;dynamic&gt;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The summary of this account, which is the continuation records that follow the account identifier record. all '88' after '03'</p>
+              </div>
+            </li>
+            <li>
+              <b><code>transactions</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.TransactionSection" href="#src.bai2_reader.models.TransactionSection">TransactionSection</a>]</code>, default:
+                      <code>&lt;dynamic&gt;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The transactions for this account, which is the list of transaction sections that follow the account identifier record</p>
+              </div>
+            </li>
+            <li>
+              <b><code>account_trailer</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.AccountTrailer" href="#src.bai2_reader.models.AccountTrailer">AccountTrailer</a></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The account trailer record for this account, record code: '49'</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>AccountIdentifier</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.AccountIdentifier" class="doc doc-heading">
+            <code>src.bai2_reader.models.AccountIdentifier</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The account identifier record, which will be the first line of each account, record code: '03'</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>record_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record code for this line</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record_counter</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
+              </div>
+            </li>
+            <li>
+              <b><code>account_number</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The account number</p>
+              </div>
+            </li>
+            <li>
+              <b><code>currency_code</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The currency code, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>type_code</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The type code, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>opening_balance</code></b>
+                  (<code><span title="float">float</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The opening balance, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>item_count</code></b>
+                  (<code><span title="int">int</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The item count, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>fund_type</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The fund type, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rest_of_record</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The rest of the record, which is optional, this is for the case when there are more fields than expected, we will store the rest of the record in this field for future use</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>TransactionSection</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.TransactionSection" class="doc doc-heading">
+            <code>src.bai2_reader.models.TransactionSection</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The transaction section for each transaction, which will contain
+- the transaction detail record
+- and the continuation records that follow the transaction detail</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>transaction</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.models.Transaction" href="#src.bai2_reader.models.Transaction">Transaction</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The transaction detail, record code: '16'</p>
+              </div>
+            </li>
+            <li>
+              <b><code>summary</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.bai2_reader.models.Continuation" href="#src.bai2_reader.models.Continuation">Continuation</a>]</code>, default:
+                      <code>&lt;dynamic&gt;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The summary of this transaction, which is the continuation records that follow the transaction detail record</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>Transaction</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.Transaction" class="doc doc-heading">
+            <code>src.bai2_reader.models.Transaction</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The transaction record which will be the line of each transaction. '16' record code</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>record_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record code for this line</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record_counter</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
+              </div>
+            </li>
+            <li>
+              <b><code>type_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The type code for this transaction</p>
+              </div>
+            </li>
+            <li>
+              <b><code>amount</code></b>
+                  (<code><span title="float">float</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The amount for this transaction</p>
+              </div>
+            </li>
+            <li>
+              <b><code>funds_type</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The funds type for this transaction, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>bank_reference_number</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The bank reference number for this transaction, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>customer_reference_number</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The customer reference number for this transaction, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>description</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The text for this transaction, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>transaction_type</code></b>
+                  (<code><span title="TransactionType">TransactionType</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The transaction type for this transaction, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rest_of_record</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The rest of the record, which is optional, this is for the case when there are more fields than expected, we will store the rest of the record in this field for future use</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>AccountTrailer</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.AccountTrailer" class="doc doc-heading">
+            <code>src.bai2_reader.models.AccountTrailer</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The account trailer record which will be the last line of each account, record code: '49'</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>record_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record code for this line</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record_counter</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
+              </div>
+            </li>
+            <li>
+              <b><code>account_control_total</code></b>
+                  (<code><span title="float">float</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The account control total, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>num_of_records</code></b>
+                  (<code><span title="int">int</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The number of records for this account, which is optional</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>GroupTrailer</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.GroupTrailer" class="doc doc-heading">
+            <code>src.bai2_reader.models.GroupTrailer</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The group trailer record TransactionType.debit, which will be the last line of each group, record code: '98'</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>record_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record code for this line</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record_counter</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
+              </div>
+            </li>
+            <li>
+              <b><code>group_control_total</code></b>
+                  (<code><span title="float">float</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The group control total, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>num_of_accounts</code></b>
+                  (<code><span title="int">int</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The number of accounts for this group, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>num_of_records</code></b>
+                  (<code><span title="int">int</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The number of records for this group, which is optional</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>FileTrailer</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.FileTrailer" class="doc doc-heading">
+            <code>src.bai2_reader.models.FileTrailer</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The file trailer record TransactionType.debit, which will be the last line of the file, record code: '99'</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>record_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record code for this line</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record_counter</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
+              </div>
+            </li>
+            <li>
+              <b><code>file_control_total</code></b>
+                  (<code><span title="float">float</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The file control total, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>num_of_groups</code></b>
+                  (<code><span title="int">int</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The number of groups for this file, which is optional</p>
+              </div>
+            </li>
+            <li>
+              <b><code>num_of_records</code></b>
+                  (<code><span title="int">int</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The number of records for this file, which is optional</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>Continuation</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.models.Continuation" class="doc doc-heading">
+            <code>src.bai2_reader.models.Continuation</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>The continuation record, which will be the line of each continuation, record code: '88'</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>record_code</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record code for this line</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record_counter</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record counter for this line, this is internally calculated, not seen in BAI2 file</p>
+              </div>
+            </li>
+            <li>
+              <b><code>record</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The continuation record, which will be used when the record is too long and needs to be continued in the next line</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><hr />
+<h2 id="enumerations">Enumerations</h2>
+<ul>
+<li><strong>Record</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.enums.Record" class="doc doc-heading">
+            <code>src.bai2_reader.enums.Record</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>An enumeration representing the different types of records in a BAI2 file.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.Record.account_identifier" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">account_identifier</span> <span class="o">=</span> <span class="s1">&#39;03&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.Record.account_trailer" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">account_trailer</span> <span class="o">=</span> <span class="s1">&#39;49&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.Record.continuation" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">continuation</span> <span class="o">=</span> <span class="s1">&#39;88&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.Record.file_header" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">file_header</span> <span class="o">=</span> <span class="s1">&#39;01&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.Record.file_trailer" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">file_trailer</span> <span class="o">=</span> <span class="s1">&#39;99&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.Record.group_header" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">group_header</span> <span class="o">=</span> <span class="s1">&#39;02&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.Record.group_trailer" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">group_trailer</span> <span class="o">=</span> <span class="s1">&#39;98&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.Record.transaction" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">transaction</span> <span class="o">=</span> <span class="s1">&#39;16&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>GroupStatus</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.enums.GroupStatus" class="doc doc-heading">
+            <code>src.bai2_reader.enums.GroupStatus</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>An enumeration representing the different group status codes in a BAI2 file.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.GroupStatus.delete" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">delete</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.GroupStatus.new" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">new</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.GroupStatus.test_only" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_only</span> <span class="o">=</span> <span class="s1">&#39;4&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.GroupStatus.update" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">update</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>AsOfDateModifier</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.enums.AsOfDateModifier" class="doc doc-heading">
+            <code>src.bai2_reader.enums.AsOfDateModifier</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>An enumeration representing the different as-of date modifiers in a BAI2 file.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.AsOfDateModifier.final_previous_day" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">final_previous_day</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.AsOfDateModifier.final_same_day" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">final_same_day</span> <span class="o">=</span> <span class="s1">&#39;4&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.AsOfDateModifier.interim_previous_day" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">interim_previous_day</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.AsOfDateModifier.interim_same_day" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">interim_same_day</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>FundsType</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.enums.FundsType" class="doc doc-heading">
+            <code>src.bai2_reader.enums.FundsType</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>An enumeration representing the different funds types in a BAI2 file.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.FundsType.distributed_availability" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">distributed_availability</span> <span class="o">=</span> <span class="s1">&#39;D&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.FundsType.distributed_availability_simple" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">distributed_availability_simple</span> <span class="o">=</span> <span class="s1">&#39;S&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.FundsType.immediate_availability" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">immediate_availability</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.FundsType.one_day_availability" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">one_day_availability</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.FundsType.two_day_availability" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">two_day_availability</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.FundsType.unknown_availability" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">unknown_availability</span> <span class="o">=</span> <span class="s1">&#39;Z&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.FundsType.value_dated" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">value_dated</span> <span class="o">=</span> <span class="s1">&#39;V&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>TransactionType</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.enums.TransactionType" class="doc doc-heading">
+            <code>src.bai2_reader.enums.TransactionType</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>An enumeration representing the different transaction types in a BAI2 file.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.TransactionType.credit" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">credit</span> <span class="o">=</span> <span class="s1">&#39;CR&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.TransactionType.debit" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">debit</span> <span class="o">=</span> <span class="s1">&#39;DB&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.TransactionType.misc" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">misc</span> <span class="o">=</span> <span class="s1">&#39;M&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>TypeCodeLevel</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.enums.TypeCodeLevel" class="doc doc-heading">
+            <code>src.bai2_reader.enums.TypeCodeLevel</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>An enumeration representing the different type code levels in a BAI2 file.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.TypeCodeLevel.detail" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">detail</span> <span class="o">=</span> <span class="s1">&#39;detail&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.TypeCodeLevel.status" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;status&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.TypeCodeLevel.summary" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">summary</span> <span class="o">=</span> <span class="s1">&#39;summary&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div><ul>
+<li><strong>TypeCodes</strong>
+</li>
+</ul>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="src.bai2_reader.enums.TypeCodes" class="doc doc-heading">
+            <code>src.bai2_reader.enums.TypeCodes</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>A class representing the different type codes in a BAI2 file,
+including the transaction type, type level code, and description.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="src.bai2_reader.enums.TypeCodes.type_codes" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">type_codes</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-cached"><code>cached</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get all Typecode details
+Thanks to : https://github.com/mrrozz/bai2-codes-csv/blob/master/bai-codes.csv</p>
+
+    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="src.bai2_reader.enums.TypeCodes.TypeCode" class="doc doc-heading">
+            <code>TypeCode</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>A data class representing the details of a type code,
+including the transaction type, type level code, and description.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>transaction_type</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.enums.TransactionType" href="#src.bai2_reader.enums.TransactionType">TransactionType</a> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                
+              </div>
+            </li>
+            <li>
+              <b><code>type_level_code</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="src.bai2_reader.enums.TypeCodeLevel" href="#src.bai2_reader.enums.TypeCodeLevel">TypeCodeLevel</a> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                
+              </div>
+            </li>
+            <li>
+              <b><code>description</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>&#39;&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="src.bai2_reader.enums.TypeCodes.TypeCode.description" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h5>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="src.bai2_reader.enums.TypeCodes.TypeCode.transaction_type" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">transaction_type</span> <span class="o">=</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h5>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="src.bai2_reader.enums.TypeCodes.TypeCode.type_level_code" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">type_level_code</span> <span class="o">=</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+</h5>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="src.bai2_reader.enums.TypeCodes.TypeCode.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">transaction_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">type_level_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
+
+</h5>
+
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.bai2_reader.enums.TypeCodes.get_type_code" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_type_code</span><span class="p">(</span><span class="n">type_code</span><span class="p">,</span> <span class="n">ignore_if_not_found</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the details of a type code by its code.
+set ignore_if_not_found to false to raise an exception if the type code is not found,
+otherwise it will return empty details and log a warning</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../changelog/" class="btn btn-neutral float-right" title="Change Log">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../changelog/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

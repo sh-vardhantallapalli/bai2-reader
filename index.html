@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>BAI2-Reader</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> BAI2-Reader
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#introduction-to-bai">Introduction to BAI</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#python-based">Python Based</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cli">CLI</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ui-for-analysis">UI for Analysis</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#tabular-view">Tabular View</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#classic-view">Classic View</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#json-view">JSON View</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="pydantic-and-enums/">Pydantic & Enums</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="changelog/">Change Log</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="contribute/">Contribute</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">BAI2-Reader</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="bai2-reader">BAI2 Reader</h1>
+<p>The BAI2 file format is a standardized, comma-delimited plain text (.txt) format developed by the Bank Administration Institute for electronic cash management, balance reporting, and bank reconciliation. It uses specific record types (01-99) to detail file headers, group headers, account summaries, and transaction details, often including multiple bank accounts in one file. </p>
+<h2 id="introduction-to-bai">Introduction to BAI</h2>
+<ul>
+<li>Comma-separated, with a slash (/) to denote the end of a record line.</li>
+<li>Common Record Codes:</li>
+<li>01: File Header</li>
+<li>02: Group Header</li>
+<li>03: Account Identifier</li>
+<li>16: Transaction Detail</li>
+<li>49: Account Trailer</li>
+<li>98/99: Group/File Trailers</li>
+<li>88: Continuation </li>
+</ul>
+<p>Sample nested structure for a BAI2 file. 
+- File can have multiple section of
+  - Groups :  meaning multiple sections of 02 -&gt; 98
+  - Accounts with in each group : meaning multiple sections of 03 -&gt; 49
+  - Transactions with in each Account : meaning multiple sections of 16 followed by 88
+- 88 is a continuation record that applies only to 03 Accounts and 16 Transactions, and we can have multiple 88 meaning multiple lines of summary
+- Some banks don't send 49, 98 Trailer records so they are treated optional</p>
+<pre><code class="language-text">├──  01 File Header
+│    ├──  02 GROUP header
+│    │    ├──  03 Account Identifier 1
+│    │    │    ├──  88 Account Summary/ continuation record
+│    │    │    ├──  88 Account Summary/ continuation record
+│    │    │    ├──  16 Transaction 1
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    ├──  16 Transaction 2
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    ├──  49 Account Trailer
+│    │    ├──  03 Account Identifier 2
+│    │    │    ├──  16 Transaction 1
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    ├──  49 Account Trailer
+│    ├──  98 GROUP Trailer
+│    ├──  02 GROUP header 2
+│    │    ├──  03 Account Identifier 1 
+│    │    │    ├──  88 Account Summary/ continuation record
+│    │    │    ├──  16 Transaction 1
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    ├──  49 Account Trailer
+│    │    ├──  03 Account Identifier 2
+│    │    │    ├──  16 Transaction 1
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    │    │    ├──  88 Transaction Summary/ continuation record
+│    │    ├──  49 Account Trailer
+│    ├──  98 GROUP Trailer
+├──  99 File Trailer
+</code></pre>
+<h2 id="usage">Usage</h2>
+<h4 id="installation">Installation</h4>
+<pre><code class="language-shell">pip install bai2-reader
+pip install 'bai2-reader[all]'    -- to install all features
+pip install 'bai2-reader[ui]'     -- install if you want to explore the UI 
+pip install 'bai2-reader[cli]'    -- install if you want to run CLI commands to parse and export 
+pip install 'bai2-reader[excel]'  -- install only if you want to export to excel 
+</code></pre>
+<ul>
+<li>Poetry based </li>
+</ul>
+<pre><code class="language-shell">poetry add bai2-reader
+poetry add 'bai2-reader[all]'    -- to install all features
+poetry add 'bai2-reader[ui]'     -- install if you want to explore the UI 
+poetry add 'bai2-reader[cli]'    -- install if you want to run CLI commands to parse and export 
+poetry add 'bai2-reader[excel]'  -- install only if you want to export to excel 
+</code></pre>
+<pre><code class="language-shell"># to export BAI to formats like CSV/JSON/Parquet
+bai2 --help
+
+# to export BAI file using UI run below. this will open the UI automatically
+bai2-ui
+</code></pre>
+<h3 id="python-based">Python Based</h3>
+<pre><code class="language-python"># import the package
+from src.bai2_reader.reader import BAI2Reader
+
+# create a reader object
+reader = BAI2Reader(run_validation=False, encoding='utf_8')
+
+# read and write using the reader object
+reader.read_file('app/src/samples/sample_1.bai') \
+    .write_data(output_file_name='sample_1.csv', output_format='json')
+</code></pre>
+<ul>
+<li>If you have multiple files to be parsed then loop them </li>
+</ul>
+<pre><code class="language-python">import glob
+from src.bai2_reader.reader import BAI2Reader
+from src.bai2_reader.enums import OutputFormat
+
+# create a reader object once, and reused it for all files. 
+# remember : the default values that you have passed to the below BAI2Reader 
+# applies to all files that are read using its object `reader`
+reader = BAI2Reader(
+  run_validation=False, 
+  encoding='utf_8',
+  output_format=OutputFormat.PARQUET
+)
+
+for file in glob.glob('app/src/samples/*.bai'):
+  # read and write using the reader object
+  reader.read_file(file).write_data()
+</code></pre>
+<ul>
+<li>If you just want to read and access the elements </li>
+</ul>
+<pre><code class="language-python"># import the package
+from src.bai2_reader.reader import BAI2Reader
+
+# create a reader object
+reader = BAI2Reader(run_validation=False, encoding='utf_8')
+
+# Only read and get bai_data for other activities. 
+# bai_data is of type Pydantic model
+bai_data = reader.read_file('app/src/samples/sample_1.bai').bai_data
+</code></pre>
+<h3 id="cli">CLI</h3>
+<ul>
+<li>To get help run: <code>bai2 export --help</code></li>
+</ul>
+<pre><code class="language-text">% bai2 export --help
+
+ Usage: bai2 export [OPTIONS]                                                                                                                                                                                                                                                                                           
+
+ Export BAI2 file to structured formats                                                                                                                                                                                                                                                                                 
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --input-files                                 TEXT                      Input BAI2 file, if you have multiple files pass them as comma separated. [required]                                                                                                                                                      │
+│    --run-validation       --no-run-validation                              Run Validations to perform the counts checks in trailers [default: run-validation]                                                                                                                                                        │
+│    --output-dir                                  TEXT                      Output path where the output files have to be stored [default: output]                                                                                                                                                                    │
+│    --output-file-names                           TEXT                      Custom output file name if you want, use comma separated if you are passing multiple input files                                                                                                                                          │
+│                                                                            Default : '{input_filesNAME_WITHOUT_EXTENSION}_{DATETIME_IN_UTC}.{OUTPUT_FORMAT}'                                                                                                                                                         │
+│    --output-format                               [csv|json|excel|parquet]  Output forma [default: csv]                                                                                                                                                                                                               │
+│    --encoding                                    TEXT                      Input BAI2 file [default: utf-8]                                                                                                                                                                                                          │
+│    --write-args                                  TEXT                      Write args that will be passed to pandas to_csv/to_json/to_parquet functions                                                                                                                                                              │
+│                                                                            Example : '{&quot;sep&quot;: &quot;,&quot;, &quot;compression&quot;: &quot;gzip&quot;}'                                                                                                                                                                                           │
+│                                                                            Note    : Make sure you wrap the strings in double quotes. :)                                                                                                                                                                             │
+│    --help                                                                  Show this message and exit.                                                                                                                                                                                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+<p>Examples</p>
+<ul>
+<li>Single File export</li>
+</ul>
+<pre><code class="language-shell">bai2 export --input-files app/src/samples/sample_1.bai
+</code></pre>
+<ul>
+<li>Multiple files export</li>
+</ul>
+<pre><code class="language-shell">bai2 export \
+  --input-files app/src/samples/sample_1.bai,app/src/samples/sample_2.bai \
+  --output-format json \
+  --output-file-names output_file_1.json,output_file_2.json \
+  --output-dir 'output_path_here' 
+</code></pre>
+<ul>
+<li>Export with custom write arguments</li>
+</ul>
+<pre><code class="language-shell">bai2 export \
+  --input-files app/src/samples/sample_1.bai \
+  --output-format json \
+  --write-args '{&quot;index&quot;: false, &quot;orient&quot;: &quot;records&quot;, &quot;indent&quot;: 4}'
+</code></pre>
+<h3 id="ui-for-analysis">UI for Analysis</h3>
+<p>UI is created using <a href="https://streamlit.io/">Streamlit</a> app. The UI runs in your local machine and allows you to explore the BAI files. </p>
+<pre><code class="language-shell"># need to install UI dependencies
+pip install 'bai2-reader[ui]' 
+
+# Start the UI
+bai2-ui
+</code></pre>
+<p>You get to see 3 different views in the UI</p>
+<ol>
+<li>Tabular View</li>
+<li>Classic View</li>
+<li>JSON View</li>
+</ol>
+<h4 id="tabular-view">Tabular View</h4>
+<p>Flattens the BAI files to a tabular format. Table allows you to filter and search transactions. </p>
+<p><img alt="" src="images/TabularView.png" /></p>
+<h4 id="classic-view">Classic View</h4>
+<p>Allows you to expand and collapse each section of BAI file. </p>
+<p><img alt="" src="images/ClassicView.png" /></p>
+<h4 id="json-view">JSON View</h4>
+<p>Allows you to see the BAI data in JSON format. </p>
+<p><img alt="" src="images/JSONView.png" /></p>
+<blockquote>
+<p>Note : You can only explore one file at a time.</p>
+</blockquote>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="pydantic-and-enums/" class="btn btn-neutral float-right" title="Pydantic & Enums">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="pydantic-and-enums/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-02-16 02:31:17.904809+00:00
+-->
