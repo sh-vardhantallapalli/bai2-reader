@@ -1,19 +1,19 @@
 """Testcases to validate BAI2 reader"""
 
 import json
-import os
 import tempfile
 import pytest
 import pandas as pd
+from pathlib import Path
 
-from src.bai2_reader.reader import BAI2Reader
-from src.bai2_reader import exceptions as exc
+from bai2_reader.src.reader import BAI2Reader
+from bai2_reader.src import exceptions as exc
 
 
 # Test data paths
-SAMPLE_DIR = os.path.join(os.path.dirname(__file__), "..", "src", "samples")
-SAMPLE_1 = os.path.join(SAMPLE_DIR, "sample_1.bai")
-SAMPLE_2 = os.path.join(SAMPLE_DIR, "sample_2.bai")
+SAMPLE_DIR = Path(Path(__file__).parent.parent, "bai2_reader", "samples")
+SAMPLE_1 = Path(SAMPLE_DIR, "sample_1.bai")
+SAMPLE_2 = Path(SAMPLE_DIR, "sample_2.bai")
 
 
 class TestBAI2Reader:
@@ -189,10 +189,10 @@ class TestBAI2Reader:
         reader.read_file(SAMPLE_1)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            output_path = os.path.join(tmpdir, "test_output.csv")
+            output_path = Path(tmpdir, "test_output.csv")
             reader.write_data(output_dir=tmpdir, output_file_name="test_output.csv", output_format="csv")
 
-            assert os.path.exists(output_path)
+            assert Path(output_path).is_file()
 
             # Verify CSV content
             df = pd.read_csv(output_path)
@@ -204,10 +204,10 @@ class TestBAI2Reader:
         reader.read_file(SAMPLE_1)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            output_path = os.path.join(tmpdir, "test_output.json")
+            output_path = Path(tmpdir, "test_output.json")
             reader.write_data(output_dir=tmpdir, output_file_name="test_output.json", output_format="json")
 
-            assert os.path.exists(output_path)
+            assert Path(output_path).is_file()
 
             # Verify JSON content
             with open(output_path) as f:
@@ -221,10 +221,10 @@ class TestBAI2Reader:
         reader.read_file(SAMPLE_1)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            output_path = os.path.join(tmpdir, "test_output.parquet")
+            output_path = Path(tmpdir, "test_output.parquet")
             reader.write_data(output_dir=tmpdir, output_file_name="test_output.parquet", output_format="parquet")
 
-            assert os.path.exists(output_path)
+            assert Path(output_path).is_file()
 
             # Verify Parquet content
             df = pd.read_parquet(output_path)
@@ -236,12 +236,12 @@ class TestBAI2Reader:
         reader.read_file(SAMPLE_1)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            output_dir = os.path.join(tmpdir, "new_dir", "nested")
-            output_path = os.path.join(output_dir, "test_output.csv")
+            output_dir = Path(tmpdir, "new_dir", "nested")
+            output_path = Path(output_dir, "test_output.csv")
 
             reader.write_data(output_dir=output_dir, output_file_name="test_output.csv")
 
-            assert os.path.exists(output_path)
+            assert Path(output_path).is_file()
 
     def test_validation_enabled_by_default(self):
         """Test that validation is enabled by default"""
@@ -308,7 +308,7 @@ class TestBAI2Reader:
             assert reader.bai_data is not None
             assert reader.bai_data.header is not None
         finally:
-            os.unlink(temp_path)
+            Path(temp_path).unlink()
 
     def test_different_output_formats(self):
         """Test that different output formats work correctly"""
@@ -319,9 +319,9 @@ class TestBAI2Reader:
 
         for fmt in formats:
             with tempfile.TemporaryDirectory() as tmpdir:
-                output_path = os.path.join(tmpdir, f"test_output.{fmt}")
+                output_path = Path(tmpdir, f"test_output.{fmt}")
                 reader.write_data(output_dir=tmpdir, output_file_name=f"test_output.{fmt}", output_format=fmt)
-                assert os.path.exists(output_path)
+                assert Path(output_path).is_file()
 
     def test_unsupported_output_format(self):
         """Test that unsupported output format raises error"""
@@ -361,7 +361,7 @@ class TestBAI2Reader:
 
     def test_sample_file_2(self):
         """Test reading another sample file"""
-        if not os.path.exists(SAMPLE_2):
+        if not Path(SAMPLE_2).is_file():
             pytest.skip("sample_2.bai not found")
 
         reader = BAI2Reader(run_validation=False)
@@ -396,7 +396,7 @@ class TestBAI2ReaderValidation:
 
             assert "Account trailer record count mismatch" in str(exc_info)
         finally:
-            os.unlink(temp_path)
+            Path(temp_path).unlink()
 
 
 class TestBAI2ReaderContinuation:
@@ -421,7 +421,7 @@ class TestBAI2ReaderContinuation:
             account = reader.bai_data.groups[0].accounts[0]
             assert len(account.summary) > 0
         finally:
-            os.unlink(temp_path)
+            Path(temp_path).unlink()
 
     def test_continuation_invalid_placement(self):
         """Test that continuation without preceding record raises error"""
@@ -441,7 +441,7 @@ class TestBAI2ReaderContinuation:
 
             assert "Continuation record found without" in str(exc_info)
         finally:
-            os.unlink(temp_path)
+            Path(temp_path).unlink()
 
 
 class TestBAI2ReaderEdgeCases:
