@@ -9,7 +9,7 @@ on:
 
 
 jobs:
-  docs:
+  pytest:
     runs-on: ubuntu-latest
     steps:
       - name: Run PyTests

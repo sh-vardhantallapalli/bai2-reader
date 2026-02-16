@@ -11,8 +11,6 @@ plugins:
       handlers:
         # See: https://mkdocstrings.github.io/python/usage/
         python:
-          import:
-            - https://docs.pydantic.dev/latest/objects.inv
           load_external_modules: true
           options:
             heading_level: 3
