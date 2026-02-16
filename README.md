@@ -9,12 +9,18 @@ Utility to read bank statements that are in BAI2 standard format, and convert th
 |____/ /_/   \_\|___||_____|       |_| \_\|_____|/_/   \_\|____/ |_____||_| \_\
 ```
 
-Checkout Documentation 
-- ReadTheDocs : https://bai2-reader.readthedocs.io/en/latest/ 
+### Documentation 
+
 - Github Wiki https://sh-vardhantallapalli.github.io/bai2-reader/
+- ReadTheDocs : https://bai2-reader.readthedocs.io/en/latest/ 
 
-Comes with an UI 💥 too, to explore the BAI file 
+(Pick either, they are always in sync, only the look and feel changes)
 
-![](docs/images/ClassicView.png)
+### Comes with an UI 💥 too, to explore the BAI file 
 
-More details here: [index.md](docs/index.md)
+- Tabular View
+![TabularView.png](docs/images/TabularView.png)
+- Classic View
+![ClassicView.png](docs/images/ClassicView.png)
+- JSON View
+![JSONView.png](docs/images/JSONView.png)
