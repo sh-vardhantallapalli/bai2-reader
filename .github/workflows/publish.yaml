@@ -84,7 +84,7 @@ jobs:
           # see the next step in the workflow for an example of using this step output
           echo "api-token=${api_token}" >> "${GITHUB_OUTPUT}"
 
-      - name: Publish bai2_reader application to PYPI
+      - name: Publish app application to PYPI
         run: |
           task publish
         env:
