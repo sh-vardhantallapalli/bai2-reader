@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install Task
         uses: go-task/setup-task@v1
@@ -48,3 +50,5 @@ jobs:
       - name: Build using Mkdocs and publish to Github Wiki
         run:
           task mkdocs.publish.github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -65,7 +65,7 @@ tasks:
   mkdocs.publish.github:
     desc: Build and Publish Mkdocs to Github Wiki
     cmds:
-      - poetry run mkdocs gh-deploy -f docs/configs/mkdocs_material.yml
+      - poetry run mkdocs gh-deploy -f docs/configs/mkdocs_material.yml --force
 
   hooks.install:
     desc: Install pre-commit hooks
