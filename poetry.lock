@@ -2339,4 +2339,4 @@ ui = ["streamlit"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0.0"
-content-hash = "fb21ea9307a7cfd85b723f6e001c780d4eb1dda7370e38c04ab22bf90d8fbd5e"
+content-hash = "768b3e23a064e8997d3bfea7b537f9f466872f75dac0fdc3f1bad96f5f974eb6"

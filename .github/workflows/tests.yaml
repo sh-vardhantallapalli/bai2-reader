@@ -12,5 +12,34 @@ jobs:
   pytest:
     runs-on: ubuntu-latest
     steps:
-      - name: Run PyTests
-        run: echo "Running PyTests"
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install Task
+        uses: go-task/setup-task@v1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'    # Specify your Python version
+
+      - name: Load poetry installation cache
+        id: cached-poetry-dependencies
+        uses: actions/cache@v5
+        with:
+          path: .bai_reader_venv
+          key: bai_reader_venv_${{ hashFiles('**/pyproject.toml') }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.4.1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true    # Creates .venv inside project for easier caching
+
+      - name: Install dependencies
+        run: poetry install --with dev
+
+      - name: Run Pytest
+        run: poetry run pytest

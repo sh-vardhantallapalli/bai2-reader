@@ -40,7 +40,7 @@ all = ["typer>=0.23.0,<0.24.0", "xlsxwriter==3.2.9", "streamlit>=1.54.0,<2.0.0"]
 #use `poetry` commands regularly, PEP sections will be written by the above script
 #if the pyproject.toml is changed run `task rewrite-pyproject-toml`
 
-dev = ["pytest-cov==7.0.0", "pre-commit==4.5.1", "tomlkit==0.14.0", "mkdocs==1.6.1", "mkdocstrings-python==2.0.1", "griffe-fieldz==0.4.0", "mkdocs-material==9.7.1"]
+dev = ["pytest-cov==7.0.0", "pre-commit==4.5.1", "tomlkit==0.14.0", "mkdocs==1.6.1", "mkdocstrings-python==2.0.1", "griffe-fieldz==0.4.0", "mkdocs-material==9.7.1", "pytest==9.0.2"]
 [tool.poetry]
 packages = [{ include = "src", from = "app"}]
 
@@ -59,6 +59,7 @@ mkdocs = "1.6.1"
 mkdocstrings-python = "2.0.1"
 griffe-fieldz = "^0.4.0"
 mkdocs-material = "^9.7.1"
+pytest = "^9.0.2"
 
 [tool.poetry.group.cli]
 optional = true
@@ -99,11 +100,14 @@ update_changelog_on_bump = true
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-testpaths = ["core.tests", ]
+testpaths = ["app/tests"]
 addopts = [
+    "-s",
+    "-v",
     "--doctest-modules",
-    "--cov-failure-under=80",
-    "--cov=src"
+    "--cov=app",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80"
 ]
 
 
