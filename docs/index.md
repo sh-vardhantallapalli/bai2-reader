@@ -93,49 +93,49 @@ bai2-ui
 
 ```python
 # import the package
-from src.bai2_reader.reader import BAI2Reader
+from bai2_reader import BAI2Reader
 
 # create a reader object
 reader = BAI2Reader(run_validation=False, encoding='utf_8')
 
 # read and write using the reader object
-reader.read_file('app/src/samples/sample_1.bai') \
-    .write_data(output_file_name='sample_1.csv', output_format='json')
+reader.read_file('app/bai2_reader/samples/sample_1.bai')\
+.write_data(output_file_name='sample_1.csv', output_format='json')
 ```
 
-- If you have multiple files to be parsed then loop them 
+- If you have multiple files to be parsed then loop them
 
 ```python
 import glob
-from src.bai2_reader.reader import BAI2Reader
-from src.bai2_reader.enums import OutputFormat
+from bai2_reader import BAI2Reader
+from bai2_reader.src.enums import OutputFormat
 
 # create a reader object once, and reused it for all files. 
 # remember : the default values that you have passed to the below BAI2Reader 
 # applies to all files that are read using its object `reader`
 reader = BAI2Reader(
-  run_validation=False, 
+  run_validation=False,
   encoding='utf_8',
   output_format=OutputFormat.PARQUET
 )
 
-for file in glob.glob('app/src/samples/*.bai'):
+for file in glob.glob('app/bai2_reader/samples/*.bai'):
   # read and write using the reader object
   reader.read_file(file).write_data()
 ```
 
-- If you just want to read and access the elements 
+- If you just want to read and access the elements
 
 ```python
 # import the package
-from src.bai2_reader.reader import BAI2Reader
+from bai2_reader import BAI2Reader
 
 # create a reader object
 reader = BAI2Reader(run_validation=False, encoding='utf_8')
 
 # Only read and get bai_data for other activities. 
 # bai_data is of type Pydantic model
-bai_data = reader.read_file('app/src/samples/sample_1.bai').bai_data
+bai_data = reader.read_file('app/bai2_reader/samples/sample_1.bai').bai_data
 ```
 
 ### CLI
@@ -168,12 +168,12 @@ Examples
 
 - Single File export
 ```shell
-bai2 export --input-files app/src/samples/sample_1.bai
+bai2 export --input-files app/bai2_reader/samples/sample_1.bai
 ```
 - Multiple files export
 ```shell
 bai2 export \
-  --input-files app/src/samples/sample_1.bai,app/src/samples/sample_2.bai \
+  --input-files app/bai2_reader/samples/sample_1.bai,app/bai2_reader/samples/sample_2.bai \
   --output-format json \
   --output-file-names output_file_1.json,output_file_2.json \
   --output-dir 'output_path_here' 
@@ -181,7 +181,7 @@ bai2 export \
 - Export with custom write arguments
 ```shell
 bai2 export \
-  --input-files app/src/samples/sample_1.bai \
+  --input-files app/bai2_reader/samples/sample_1.bai \
   --output-format json \
   --write-args '{"index": false, "orient": "records", "indent": 4}'
 ```

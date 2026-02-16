@@ -20,8 +20,8 @@ dependencies = [
 #use `poetry` commands regularly, PEP sections will be written by the above script
 #if the pyproject.toml is changed run `task rewrite-pyproject-toml`
 
-bai2 = "src.bai2_reader.cli:app"
-bai2-ui = "src.ui.cli:run_streamlit"
+bai2 = "bai2_reader.src.cli:app"
+bai2-ui = "bai2_reader.ui.cli:run_streamlit"
 
 [project.optional-dependencies]
 #This Section added automatically added using script: ci/rewrite_pyproject_toml_to_pep.py
@@ -42,11 +42,11 @@ all = ["typer>=0.23.0,<0.24.0", "xlsxwriter==3.2.9", "streamlit>=1.54.0,<2.0.0"]
 
 dev = ["pytest-cov==7.0.0", "pre-commit==4.5.1", "tomlkit==0.14.0", "mkdocs==1.6.1", "mkdocstrings-python==2.0.1", "griffe-fieldz==0.4.0", "mkdocs-material==9.7.1", "pytest==9.0.2"]
 [tool.poetry]
-packages = [{ include = "src", from = "app"}]
+packages = [{ include = "bai2_reader", from = "app"}]
 
 [tool.poetry.scripts]
-bai2 = "src.bai2_reader.cli:app"
-bai2-ui = "src.ui.cli:run_streamlit"
+bai2 = "bai2_reader.src.cli:app"
+bai2-ui = "bai2_reader.ui.cli:run_streamlit"
 
 [tool.poetry.group.dev]
 optional = true
@@ -97,6 +97,14 @@ tag_format = "v$version"
 changelog_file = "docs/changelog.md"
 update_changelog_on_bump = true
 
+[tool.coverage.run]
+branch = true
+omit = [
+    "app/tests/*",        # Exclude everything in the 'tests' directory
+    "*/__init__.py",  # Exclude all __init__.py files (optional, adjust as needed)
+    "docs/*",         # Exclude documentation files
+    "app/bai2_reader/ui/*"
+]
 
 [tool.pytest.ini_options]
 minversion = "6.0"

@@ -3,51 +3,51 @@
 ## Pydantic Models
 
 -  **Bai2Model**
-::: src.bai2_reader.models.Bai2Model
+::: bai2_reader.src.models.Bai2Model
     handler: python
 
 -  **FileHeader**
-::: src.bai2_reader.models.FileHeader
+::: bai2_reader.src.models.FileHeader
     handler: python
 
 -  **GroupSection**
-::: src.bai2_reader.models.GroupSection
+::: bai2_reader.src.models.GroupSection
     handler: python
 
 -  **GroupHeader**
-::: src.bai2_reader.models.GroupHeader
+::: bai2_reader.src.models.GroupHeader
     handler: python
 
 -  **AccountSection**
-::: src.bai2_reader.models.AccountSection
+::: bai2_reader.src.models.AccountSection
     handler: python
 
 -  **AccountIdentifier**
-::: src.bai2_reader.models.AccountIdentifier
+::: bai2_reader.src.models.AccountIdentifier
     handler: python
 
 -  **TransactionSection**
-::: src.bai2_reader.models.TransactionSection
+::: bai2_reader.src.models.TransactionSection
     handler: python
 
 -  **Transaction**
-::: src.bai2_reader.models.Transaction
+::: bai2_reader.src.models.Transaction
     handler: python
 
 -  **AccountTrailer**
-::: src.bai2_reader.models.AccountTrailer
+::: bai2_reader.src.models.AccountTrailer
     handler: python
 
 -  **GroupTrailer**
-::: src.bai2_reader.models.GroupTrailer
+::: bai2_reader.src.models.GroupTrailer
     handler: python
 
 -  **FileTrailer**
-::: src.bai2_reader.models.FileTrailer
+::: bai2_reader.src.models.FileTrailer
     handler: python
 
 -  **Continuation**
-::: src.bai2_reader.models.Continuation
+::: bai2_reader.src.models.Continuation
     handler: python
 
 
@@ -56,7 +56,7 @@
 ## Enumerations
 
 -  **Record**
-::: src.bai2_reader.enums.Record
+::: bai2_reader.src.enums.Record
     handler: python
     options:
         show_if_no_docstring: true
@@ -66,7 +66,7 @@
         show_bases: false
 
 -  **GroupStatus**
-::: src.bai2_reader.enums.GroupStatus
+::: bai2_reader.src.enums.GroupStatus
     handler: python
     options:
         show_if_no_docstring: true
@@ -77,7 +77,7 @@
 
 
 -  **AsOfDateModifier**
-::: src.bai2_reader.enums.AsOfDateModifier
+::: bai2_reader.src.enums.AsOfDateModifier
     handler: python
     options:
         show_if_no_docstring: true
@@ -88,7 +88,7 @@
 
 
 -  **FundsType**
-::: src.bai2_reader.enums.FundsType
+::: bai2_reader.src.enums.FundsType
     handler: python
     options:
         show_if_no_docstring: true
@@ -99,7 +99,7 @@
 
 
 -  **TransactionType**
-::: src.bai2_reader.enums.TransactionType
+::: bai2_reader.src.enums.TransactionType
     handler: python
     options:
         show_if_no_docstring: true
@@ -110,7 +110,7 @@
 
 
 -  **TypeCodeLevel**
-::: src.bai2_reader.enums.TypeCodeLevel
+::: bai2_reader.src.enums.TypeCodeLevel
     handler: python
     options:
         show_if_no_docstring: true
@@ -121,7 +121,7 @@
 
 
 -  **TypeCodes**
-::: src.bai2_reader.enums.TypeCodes
+::: bai2_reader.src.enums.TypeCodes
     handler: python
     options:
         show_if_no_docstring: true
