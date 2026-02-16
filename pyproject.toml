@@ -31,8 +31,8 @@ bai2-ui = "src.ui.cli:run_streamlit"
 
 cli = ["typer>=0.23.0,<0.24.0"]
 excel = ["xlsxwriter==3.2.9"]
-ui = ["duckdb>=1.4.3,<2.0.0", "streamlit>=1.54.0,<2.0.0"]
-all = ["typer>=0.23.0,<0.24.0", "xlsxwriter==3.2.9", "duckdb>=1.4.3,<2.0.0", "streamlit>=1.54.0,<2.0.0"]
+ui = ["streamlit>=1.54.0,<2.0.0"]
+all = ["typer>=0.23.0,<0.24.0", "xlsxwriter==3.2.9", "streamlit>=1.54.0,<2.0.0"]
 
 [project.dependency-groups]
 #This Section added automatically added using script: ci/rewrite_pyproject_toml_to_pep.py
@@ -40,7 +40,7 @@ all = ["typer>=0.23.0,<0.24.0", "xlsxwriter==3.2.9", "duckdb>=1.4.3,<2.0.0", "st
 #use `poetry` commands regularly, PEP sections will be written by the above script
 #if the pyproject.toml is changed run `task rewrite-pyproject-toml`
 
-dev = ["pytest-cov==7.0.0", "pre-commit==4.5.1", "mkdocs-mermaid2-plugin==1.2.3", "tomlkit==0.14.0"]
+dev = ["pytest-cov==7.0.0", "pre-commit==4.5.1", "tomlkit==0.14.0", "mkdocs==1.6.1", "mkdocstrings-python==2.0.1", "griffe-fieldz==0.4.0", "mkdocs-material==9.7.1"]
 [tool.poetry]
 packages = [{ include = "src", from = "app"}]
 
@@ -54,8 +54,11 @@ optional = true
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^7.0.0"
 pre-commit = "^4.5.1"
-mkdocs-mermaid2-plugin = "^1.2.3"
 tomlkit = "^0.14.0"
+mkdocs = "1.6.1"
+mkdocstrings-python = "2.0.1"
+griffe-fieldz = "^0.4.0"
+mkdocs-material = "^9.7.1"
 
 [tool.poetry.group.cli]
 optional = true
@@ -73,7 +76,6 @@ xlsxwriter = "^3.2.9"
 optional = true
 
 [tool.poetry.group.ui.dependencies]
-duckdb = ">=1.4.3,<2.0.0"
 streamlit = ">=1.54.0,<2.0.0"
 
 [tool.poetry.requires-plugins]

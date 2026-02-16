@@ -1,3 +1,8 @@
+## Contact me to collaborate
+- Gmail: [ekharshavardhan851@gmail.com](mailto:ekharshavardhan851@gmail.com)
+- LinkedIn : [sh-vardhantallapalli/](https://www.linkedin.com/in/sh-vardhantallapalli/)
+
+
 ## Local setup on mac
 
 - Install Docker desktop : https://www.docker.com/get-started/
@@ -27,13 +32,7 @@ cz bump --increment PATCH --prerelease rc
 cz changelog --incremental --unreleased-version "v0.0.1"
 ```
 
-
-### Documentation for bai2-reader:
+### Documentation for bai2-reader
 
 - https://bai2-reader.readthedocs.io/en/latest/
 - https://app.readthedocs.org/projects/bai2-reader/
-
-
-Contact me to collaborate on this 
-- Gmail: [ekharshavardhan851@gmail.com](mailto:ekharshavardhan851@gmail.com)
-- LinkedIn : https://www.linkedin.com/in/sh-vardhantallapalli/

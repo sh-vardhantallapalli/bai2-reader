@@ -9,7 +9,9 @@ Utility to read bank statements that are in BAI2 standard format, and convert th
 |____/ /_/   \_\|___||_____|       |_| \_\|_____|/_/   \_\|____/ |_____||_| \_\
 ```
 
-Checkout Documentation :  https://bai2-reader.readthedocs.io/en/latest/ 
+Checkout Documentation 
+- ReadTheDocs : https://bai2-reader.readthedocs.io/en/latest/ 
+- Github Wiki https://sh-vardhantallapalli.github.io/bai2-reader/
 
 Comes with an UI 💥 too, to explore the BAI file 
 

@@ -9,6 +9,12 @@ on:
   push:
     paths-ignore:
       - 'docs/**'
+      - '.github/**'
+      - 'README.md'
+      - 'CLAUDE.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '.pre-commit-config.yaml'
     branches:
       - main
 
@@ -42,7 +48,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: .bai2_reader_venv
-          key: bai2_reader_venv_${{ hashFiles('**/poetry.lock') }}
+          key: bai2_reader_venv_${{ hashFiles('**/pyproject.toml') }}
 
       - name: Install Poetry
         uses: snok/install-poetry@v1.4.1

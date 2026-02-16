@@ -4,8 +4,7 @@ site_name: BAI2-Reader
 docs_dir: '../'
 site_dir: '../../site'
 theme:
-  name: readthedocs
-  highlights: true
+  name: material
 plugins:
   - search
   - mkdocstrings:

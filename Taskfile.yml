@@ -51,6 +51,23 @@ tasks:
       - rm -r -f dist
     silent: true
 
+  mkdocs.build:
+    desc: Generate Docs using Mkdocs locally
+    cmds:
+      - echo "Generate Docs using Mkdocs locally"
+      - mkdocs build -f docs/configs/mkdocs.yml
+
+  mkdocs.view:
+    desc: View Docs locally
+    cmds:
+      - mkdocs serve -f docs/configs/mkdocs.yml
+
+  mkdocs.publish.github:
+    desc: Build and Publish Mkdocs to Github Wiki
+    cmds:
+      - mkdocs build -f docs/configs/mkdocs_material.yml
+      - mkdocs gh-deploy -f docs/configs/mkdocs_material.yml
+
   hooks.install:
     desc: Install pre-commit hooks
     cmds:
