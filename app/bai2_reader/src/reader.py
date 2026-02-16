@@ -6,8 +6,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Self, List
 
-from src.bai2_reader.logger import log
-from src.bai2_reader import enums, exceptions as exc, models
+from bai2_reader.src.logger import log
+from bai2_reader.src import enums, exceptions as exc, models
 
 
 class BAI2Reader:
@@ -33,7 +33,7 @@ class BAI2Reader:
         self.source_filename: Path | None = None
         self.bai_data: models.Bai2Model | None = None
 
-    def read_file(self, file_path: str, run_validation: bool | None = None, encoding: str | None = None) -> Self:
+    def read_file(self, file_path: str | Path, run_validation: bool | None = None, encoding: str | None = None) -> Self:
         """Reads a BAI2 file and returns a Bai2Model object containing the parsed data.
         If any of the parameters are not provided, it will use the default values set in the constructor.
         :param file_path: The path to the BAI2 file to be read.
@@ -225,7 +225,7 @@ class BAI2Reader:
 
     def write_data(
         self,
-        output_dir: str | None = None,
+        output_dir: str | Path | None = None,
         output_file_name: str | None = None,
         output_format: enums.OutputFormat | str | None = None,
         write_args: Dict | None = None,

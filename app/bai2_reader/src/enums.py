@@ -5,7 +5,7 @@ import warnings
 from enum import Enum
 from dataclasses import dataclass
 from functools import cached_property
-from src.bai2_reader.exceptions import UnknownValueException
+from bai2_reader.src.exceptions import UnknownValueException
 
 
 class OutputFormat(str, Enum):

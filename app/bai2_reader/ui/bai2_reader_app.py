@@ -6,8 +6,8 @@ import json
 import tempfile
 import streamlit as st
 from typing import Dict
-from src.bai2_reader.reader import BAI2Reader, bai_to_flat_dataframe
-from src.bai2_reader.models import Bai2Model
+from bai2_reader.src.reader import BAI2Reader, bai_to_flat_dataframe
+from bai2_reader.src.models import Bai2Model
 
 
 def add_new_lines(n=1):

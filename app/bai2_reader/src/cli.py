@@ -3,9 +3,9 @@
 import json
 import typer
 
-from src.bai2_reader import enums, exceptions as exc
-from src.bai2_reader.logger import log
-from src.bai2_reader.reader import BAI2Reader
+from bai2_reader.src import enums, exceptions as exc
+from bai2_reader.src.logger import log
+from bai2_reader.src.reader import BAI2Reader
 
 app = typer.Typer(help="Utility to parse BAI2 files")
 

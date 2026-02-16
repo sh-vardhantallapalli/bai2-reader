@@ -3,7 +3,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
-from src.bai2_reader import enums
+from bai2_reader.src import enums
 
 
 class Record(BaseModel):
