@@ -24,3 +24,11 @@ Utility to read bank statements that are in BAI2 standard format, and convert th
 ![ClassicView.png](docs/images/ClassicView.png)
 - JSON View
 ![JSONView.png](docs/images/JSONView.png)
+
+
+### Sample BAI files
+- [sample_1.bai](app/src/samples/sample_1.bai)
+- [sample_2.bai](app/src/samples/sample_2.bai)
+- [sample_3.bai](app/src/samples/sample_3.bai)
+- [sample_4.bai](app/src/samples/sample_4.bai)
+- [sample_5.bai](app/src/samples/sample_5.bai)
