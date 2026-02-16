@@ -55,18 +55,18 @@ tasks:
     desc: Generate Docs using Mkdocs locally
     cmds:
       - echo "Generate Docs using Mkdocs locally"
-      - python -m mkdocs build -f docs/configs/mkdocs.yml
+      - poetry run mkdocs build -f docs/configs/mkdocs.yml
 
   mkdocs.view:
     desc: View Docs locally
     cmds:
-      - python -m mkdocs serve -f docs/configs/mkdocs.yml
+      - poetry run mkdocs serve -f docs/configs/mkdocs.yml
 
   mkdocs.publish.github:
     desc: Build and Publish Mkdocs to Github Wiki
     cmds:
-      - python -m mkdocs build -f docs/configs/mkdocs_material.yml
-      - python -m mkdocs gh-deploy -f docs/configs/mkdocs_material.yml
+      - poetry run mkdocs build -f docs/configs/mkdocs_material.yml
+      - poetry run mkdocs gh-deploy -f docs/configs/mkdocs_material.yml
 
   hooks.install:
     desc: Install pre-commit hooks
